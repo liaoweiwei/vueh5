@@ -6,7 +6,6 @@ import getters from './getters'
 
 Vue.use(Vuex)
 
-/** 状态定义 */
 const store = new Vuex.Store({
   modules: {
     app,

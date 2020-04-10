@@ -1,0 +1,14 @@
+.splitter-container,
+.splitter-pane,
+.splitter-pane .scrollbar {
+  width: auto;
+  height: 100%;
+}
+
+.splitter-pane {
+  overflow: hidden;
+  &.Left {
+    width: 420px;
+  }
+}
+

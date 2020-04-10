@@ -1,0 +1,71 @@
+{
+  "common": {
+    "changeLanguage": "简体中文",
+    "more": "查看更多",
+    "follow": "关注",
+    "fans": "粉丝",
+    "dynamic": "动态",
+    "collection": "收藏",
+    "hot": "热门话题",
+    "edit": "编辑个人资料",
+    "goods": "店铺商品",
+    "shop": "商品",
+    "addFollow": "加关注",
+    "followed": "已关注",
+    "pm": "私信",
+    "replies": "全部评论",
+    "iPhone": "iPhone 下载",
+    "android": "Android 下载",
+    "all": "全部",
+    "add": "添加",
+    "bioText": "喜欢的东西在变，买的东西在变，卖的东西在变，我的店铺随我改变。百铺，每个人的店铺",
+    "loading": "加载中...",
+    "noData": "暂无数据",
+    "out": "退出登录"
+  },
+  "goods": {
+    "sold": "件月销售",
+    "money": "￥",
+    "commission": "预估收益",
+    "agent": "一键代理",
+    "agentcancel": "取消代理",
+    "puy": "领劵购买",
+    "relevant": "相关推荐"
+  },
+  "menu": {
+    "home": "首页",    
+    "download": "下载APP"
+  },
+  "login": {
+    "desc": "登录后可发布动态并与APP同步数据",
+    "verification": "验证码登录",
+    "password": "密码登录",
+    "forgetPassword": "忘记密码？",
+    "noAccount": "没有账号？去",
+    "signUp": "注册",
+    "login": "登录",
+    "thirdParty": "第三方账号登录",
+    "lodingText": "登录中...",
+    "getCode": "获取验证码"
+  },
+  "placeholder": {
+    "mobile": "请输入手机号码",
+    "code": "请输入手机验证码",
+    "password": "请输入密码",
+    "user": "请输入用户名"
+  },
+  "required": {
+    "mobile": "手机不能为空",
+    "code": "验证码不能为空",
+    "password": "密码不能为空"
+  },
+  "messageBox": {
+    "title": "扫码下载百铺App",
+    "desc": "全民一起带货，在家躺着赚钱",
+    "cancelButtonText": "关闭"
+  },
+  "area": {
+    "cn": "中国(+86)",
+    "us": "美国(+1)"
+  }
+}

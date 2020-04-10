@@ -1,17 +1,13 @@
+
 const app = {
-    state: {
-      appName: ""
-    },
-    mutations: {
-      SET_APP_NAME: (state, appName) => {
-        state.appName = appName
-      }
-    },
-    actions: {
-        ToggleAppName({ commit }, name) {
-            commit('SET_APP_NAME', name)
-        }
+  state: {
+    loginDialogVisible: false
+  },
+  mutations: {
+    loginDialogVisible: (state, data) => {
+      state.loginDialogVisible = data
     }
   }
-  
-  export default app
+}
+
+export default app

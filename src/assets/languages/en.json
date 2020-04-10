@@ -1,0 +1,71 @@
+{
+  "common": {
+    "changeLanguage": "English",
+    "more": "More",
+    "follow": "Following",
+    "fans": "Followers",
+    "dynamic": "Posts",
+    "collection": "Saved",
+    "hot": "Hot",
+    "edit": "Edit",
+    "goods": "Goods",
+    "shop": "Goods",
+    "addFollow": "Follow",
+    "followed": "Followed",
+    "pm": "PM",
+    "replies": "All replies",
+    "iPhone": "iPhone",
+    "android": "Android",
+    "all": "All",
+    "add": "Add",
+    "bioText": "Vlog together." ,
+    "loading": "loading...",
+    "noData": "No data",
+    "out": "Logout"
+  },
+  "goods": {
+    "sold": "Sold",
+    "money": "$",
+    "commission": "Commission",
+    "agent": "Sell",
+    "agentcancel": "Remove",
+    "puy": "Coupon",
+    "relevant": "Relevant"
+  },
+  "menu": {
+    "home": "Home",
+    "download": "Download App"
+  },
+  "login": {
+    "desc": "Log in to sync data from App.",
+    "verification": "Verification",
+    "password": "Password",
+    "forgetPassword": "Fogot password?",
+    "noAccount": "Not registered? Go to",
+    "signUp": "Sign up",
+    "login": "Log in",
+    "thirdParty": "OR",
+    "lodingText": "Login...",
+    "getCode": "Get verification code"
+  },
+  "placeholder": {
+    "mobile": "Please enter phone number",
+    "code": "Please enter verification code",
+    "password": "Please input a password",
+    "user": "Please input a user name"
+  },
+  "required": {
+    "mobile": "Mobile phone cannot be empty",
+    "code": "Verification code cannot be empty",
+    "password": "Password cannot be empty"
+  },
+  "messageBox": {
+    "title": "Scan QR code to download App.",
+    "desc": "Vlog together.",
+    "cancelButtonText": "Close"
+  },
+  "area": {
+    "cn": "CN(+86)",
+    "us": "US(+1)"
+  }
+}
