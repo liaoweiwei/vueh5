@@ -134,6 +134,9 @@ export default {
       font-size: 12px;
       text-align: left;
       margin-left: 320px;
+      p {
+        margin: 15px 0;
+      }
     }
   }
 }

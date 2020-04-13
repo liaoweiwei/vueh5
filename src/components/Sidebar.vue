@@ -6,15 +6,22 @@
           <span>热门话题</span>
         </div>
         <div>
-          <ul class="">
+          <ul>
             <li v-for="(item, index) in hotTopic" :key="index">
               <el-link type="primary">{{ item.name }}</el-link>
             </li>
           </ul>
         </div>
       </el-card>
-      <el-card class="box-card">
-        Copyright ©2019 BAIPU, All Rights Reserved &nbsp;|&nbsp; <a target="_blank" href="http://www.beian.miit.gov.cn/">沪ICP备19007182号-1</a><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010502005025"><img src="/static/images/beian.png" width="15" height="15" />沪公网安备 31010502005025号</a>
+      <el-card class="box-card copy">
+        <p>Copyright ©2019 BAIPU, All Rights Reserved</p>
+        <p>
+          <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010502005025">
+            <img src="/static/images/gongan.png" width="15px" height="auto">
+          </a>
+          沪公网安备 31010502005025号
+          <el-link target="_blank" href="http://www.beian.miit.gov.cn">沪ICP备19007182号-1</el-link>
+        </p>
       </el-card>
     </el-scrollbar>
   </aside>
@@ -53,6 +60,16 @@ aside {
   .scrollbar {
     width: 100%;
     height: 100%;
+  }
+  .box-card {
+    margin-top: 10px;
+    &.copy {
+      font-size: 14px;
+      color: #606266;
+      p {
+        margin-bottom: 8px;
+      }
+    }
   }
 }
 

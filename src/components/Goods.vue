@@ -1,11 +1,35 @@
 <template>
-  <div class="goods">
-  </div>
+  <el-card v-if="goods != null" shadow="always" class="goods">
+    <div slot="header" class="clearfix">
+      <i class="el-icon-arrow-left fl"></i>
+      <el-popover placement="bottom-start" width="100" trigger="hover">
+        <i slot="reference" class="el-icon-more fl"></i>
+        <!-- <ul>
+          <li><a href="javascript:;">不感兴趣</a></li>
+          <li><a href="javascript:;" @click="onblacklist(details)">不看该作者</a></li>
+          <li @click="onQrcode">
+            <a href="javascript:;">问题反馈</a>
+          </li>
+        </ul> -->
+      </el-popover>
+      <div class="title">商品详情</div>
+    </div>
+  </el-card>
 </template>
 
 <script>
+import Header from '@/components/Carousel'
 
 export default {
+  components: {
+    Carousel
+  },
+  props: {
+    goods: {
+      type: Object,
+      default: null  
+    }
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')

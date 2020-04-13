@@ -1,41 +1,28 @@
 <template>
-  <el-card v-if="dynamic != null" shadow="always" class="dynamic">
-    <div slot="header" class="clearfix">
-      <i class="el-icon-arrow-left fl"></i>
-      <el-popover placement="bottom-start" width="100" trigger="hover">
-        <i slot="reference" class="el-icon-more fl"></i>
-        <!-- <ul>
-          <li><a href="javascript:;">不感兴趣</a></li>
-          <li><a href="javascript:;" @click="onblacklist(details)">不看该作者</a></li>
-          <li @click="onQrcode">
-            <a href="javascript:;">问题反馈</a>
-          </li>
-        </ul> -->
-      </el-popover>
-      <div class="user clearfix">
-        <el-avatar class="fr" :size="42" :src="dynamic.user_head_portrait" />
-        <div class="user-body">
-          <div class="title">{{dynamic.nick_name}}</div>
-          <div class="date">{{dynamic.publish_time}}</div>
-        </div>
-      </div>
-    </div>
-    <div>
-
-    </div>
-  </el-card>
+  <div class="carousel">
+    <img :src="url" width="100%" height="auto" class="carousel-image"/>
+    <el-carousel> 
+      <el-carousel-item v-for="(thumb, index) in list" :key="index">
+        <img :src="thumb" width="100%" height="auto"/>
+      </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script>
-import Carousel from '@/components/Carousel'
 
 export default {
-  components: {
-    Carousel
-  },
   props: {
-    dynamic: {
-      type: Object,
+    type: {
+      type: Boolean,
+      default: null  
+    },
+    url: {
+      type: String,
+      default: null  
+    },
+    list: {
+      type: Array,
       default: null  
     }
   },

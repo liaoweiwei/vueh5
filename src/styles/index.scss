@@ -3,6 +3,8 @@
 @import './transition.scss';
 @import './element-ui.scss';
 @import './splitter.scss';
+@import './watfill.scss';
+@import './popover.scss';
 @import './btn.scss';
 
 /******reset********/
@@ -27,10 +29,9 @@ time, mark, audio, video {
 
 body {
   height: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  background: #f7f7f7;
+  font-size: 14px;
 }
 
 label {
@@ -154,6 +155,23 @@ div:focus {
   position: relative;
 }
 
+.text-center {
+  text-align: center
+}
+
+.loading {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.more {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+
 // aside {
 //   background: #eef1f6;
 //   padding: 8px 24px;
@@ -177,23 +195,11 @@ div:focus {
 //   }
 // }
 
-//main-container全局样式
-.app-container {
-  padding: 20px;
-}
-
-.components-container {
-  margin: 30px 50px;
-  position: relative;
-}
-
-.pagination-container {
+.pad-15 {
   margin-top: 30px;
 }
 
-.text-center {
-  text-align: center
-}
+
 
 .sub-navbar {
   height: 50px;

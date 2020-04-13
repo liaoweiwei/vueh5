@@ -7,6 +7,7 @@ import store from './store'
 import 'babel-polyfill'
 import Element from 'element-ui'
 import './styles/element-variables.scss'
+import 'es6-promise/auto'
 
 import './styles/index.scss' // global css
 
