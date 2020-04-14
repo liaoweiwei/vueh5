@@ -7,9 +7,9 @@
 
 .splitter-pane {
   overflow: hidden;
-  padding-top: 50px;
   &.Left {
-    width: 458px;
+    width: 448px;
+    margin-right: 10px;
   }
 }
 

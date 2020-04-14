@@ -1,7 +1,8 @@
 <template>
-  <div class="login">
-
-  </div>
+  <el-card>
+    <p>登录后可发布动态并与APP同步数据</p>
+    <el-button type="primary">登录 | 注册</el-button>
+  </el-card>
 </template>
 
 <script>

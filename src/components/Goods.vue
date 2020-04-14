@@ -1,29 +1,40 @@
 <template>
-  <el-card v-if="goods != null" shadow="always" class="goods">
-    <div slot="header" class="clearfix">
-      <i class="el-icon-arrow-left fl"></i>
-      <el-popover placement="bottom-start" width="100" trigger="hover">
-        <i slot="reference" class="el-icon-more fl"></i>
-        <!-- <ul>
-          <li><a href="javascript:;">不感兴趣</a></li>
-          <li><a href="javascript:;" @click="onblacklist(details)">不看该作者</a></li>
-          <li @click="onQrcode">
-            <a href="javascript:;">问题反馈</a>
-          </li>
-        </ul> -->
-      </el-popover>
-      <div class="title">商品详情</div>
-    </div>
-  </el-card>
+  <div v-if="goods != null" class="goods">
+    <el-card :body-style="{ padding: '0px 15px 15px' }">
+      <div slot="header" class="clearfix">
+        <i class="el-icon-arrow-left fl"></i>
+        <div class="title">商品详情</div>
+      </div>
+      <div class="carousel">
+        <img :src="goods.goods_main_img" width="100%" height="auto" class="image"/>
+        <el-carousel> 
+          <el-carousel-item v-for="(thumb, index) in goods.goods_detail_img" :key="index">
+            <img :src="thumb" width="100%" height="auto"/>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <h3 class="title">{{ goods.goods_title }}</h3>
+      <p>
+        <span class="price">￥{{goods.goods_price}}</span>
+        <mark v-if="goods.is_agent == false">预估收益￥{{goods.commission}}</mark>
+      </p>
+      <el-row>
+        <el-button type="primary">一键代理</el-button>
+        <el-button type="danger">领劵购买</el-button>
+      </el-row>
+    </el-card>
+    <el-card class="pad-10">
+      <h3 class="title">商品描述</h3>
+      <p>{{goods.brand}}</p>
+      <p>{{goods.description}}</p>
+      <p>{{goods.description_short}}</p>
+    </el-card>
+  </div>
 </template>
 
 <script>
-import Header from '@/components/Carousel'
 
 export default {
-  components: {
-    Carousel
-  },
   props: {
     goods: {
       type: Object,
@@ -43,99 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-header {
-  height: 70px;
-  overflow: hidden;
-  position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  .container {
-    width: 100%;
-    max-width: 1200px;
-  }
-  .logo {
-    width: 45px;
-    min-height: 50px;
-    background-color: #999;
-  }
+.goods {
+
 }
-
-
-// .header {
-  
-
-//   .hamburger-container {
-//     line-height: 46px;
-//     height: 100%;
-//     float: left;
-//     cursor: pointer;
-//     transition: background .3s;
-//     -webkit-tap-highlight-color:transparent;
-
-//     &:hover {
-//       background: rgba(0, 0, 0, .025)
-//     }
-//   }
-
-//   .breadcrumb-container {
-//     float: left;
-//   }
-
-//   .errLog-container {
-//     display: inline-block;
-//     vertical-align: top;
-//   }
-
-//   .right-menu {
-//     float: right;
-//     height: 100%;
-//     line-height: 50px;
-
-//     &:focus {
-//       outline: none;
-//     }
-
-//     .right-menu-item {
-//       display: inline-block;
-//       padding: 0 8px;
-//       height: 100%;
-//       font-size: 18px;
-//       color: #5a5e66;
-//       vertical-align: text-bottom;
-
-//       &.hover-effect {
-//         cursor: pointer;
-//         transition: background .3s;
-
-//         &:hover {
-//           background: rgba(0, 0, 0, .025)
-//         }
-//       }
-//     }
-
-//     .avatar-container {
-//       margin-right: 30px;
-
-//       .avatar-wrapper {
-//         margin-top: 5px;
-//         position: relative;
-
-//         .user-avatar {
-//           cursor: pointer;
-//           width: 40px;
-//           height: 40px;
-//           border-radius: 10px;
-//         }
-
-//         .el-icon-caret-bottom {
-//           cursor: pointer;
-//           position: absolute;
-//           right: -20px;
-//           top: 25px;
-//           font-size: 12px;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>

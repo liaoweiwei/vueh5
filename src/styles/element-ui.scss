@@ -25,3 +25,11 @@
 .el-card.is-always-shadow {
   box-shadow: none;
 }
+
+.el-scrollbar .el-scrollbar__view {
+  padding-bottom: 35px;
+}
+
+.el-carousel .el-carousel__container {
+  height: 100% !important;
+}

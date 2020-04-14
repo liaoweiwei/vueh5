@@ -1,19 +1,20 @@
 <template>
   <aside class="fl">
     <el-scrollbar class="scrollbar" :horizontal="false">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
+      <slot />
+      <el-card :body-style="{ padding: '8px 15px' }" class="pad-10">
+        <div slot="header" style="margin: -7px 0">
           <span>热门话题</span>
         </div>
         <div>
-          <ul>
+          <ul style="padding: 0; margin: 0">
             <li v-for="(item, index) in hotTopic" :key="index">
               <el-link type="primary">{{ item.name }}</el-link>
             </li>
           </ul>
         </div>
       </el-card>
-      <el-card class="box-card copy">
+      <el-card :body-style="{ padding: '8px 15px' }" class="pad-10 copy">
         <p>Copyright ©2019 BAIPU, All Rights Reserved</p>
         <p>
           <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010502005025">
@@ -54,21 +55,19 @@ export default {
 
 <style lang="scss" scoped>
 aside {
-  width: 264px;
+  width: 250px;
   height: 100%;
   padding: 0;
+  margin-right: 15px;
   .scrollbar {
     width: 100%;
     height: 100%;
   }
-  .box-card {
-    margin-top: 10px;
-    &.copy {
-      font-size: 14px;
-      color: #606266;
-      p {
-        margin-bottom: 8px;
-      }
+  .copy {
+    font-size: 14px;
+    color: #606266;
+    p {
+      margin-bottom: 8px;
     }
   }
 }

@@ -1,29 +1,72 @@
 <template>
-  <el-card v-if="dynamic != null" shadow="always" class="dynamic">
-    <div slot="header" class="clearfix">
-      <i class="el-icon-arrow-left fl"></i>
-      <el-popover placement="bottom-start" width="100" trigger="hover">
-        <i slot="reference" class="el-icon-more fl"></i>
-        <!-- <ul>
-          <li><a href="javascript:;">不感兴趣</a></li>
-          <li><a href="javascript:;" @click="onblacklist(details)">不看该作者</a></li>
-          <li @click="onQrcode">
-            <a href="javascript:;">问题反馈</a>
-          </li>
-        </ul> -->
-      </el-popover>
-      <div class="user clearfix">
-        <el-avatar class="fr" :size="42" :src="dynamic.user_head_portrait" />
-        <div class="user-body">
-          <div class="title">{{dynamic.nick_name}}</div>
-          <div class="date">{{dynamic.publish_time}}</div>
+  <div v-if="dynamic != null" class="dynamic">
+    <el-card :body-style="{ padding: '0px 15px 15px' }">
+      <div slot="header" class="dynamic-header clearfix">
+        <i class="el-icon-arrow-left fl"></i>
+        <el-popover placement="bottom-start" width="100" trigger="hover">
+          <i slot="reference" class="el-icon-more fl"></i>
+          <!-- <ul>
+            <li><a href="javascript:;">不感兴趣</a></li>
+            <li><a href="javascript:;" @click="onblacklist(details)">不看该作者</a></li>
+            <li @click="onQrcode">
+              <a href="javascript:;">问题反馈</a>
+            </li>
+          </ul> -->
+        </el-popover>
+        <div class="user clearfix">
+          <el-avatar class="fr" :size="42" :src="dynamic.head_portrait" />
+          <div class="user-body">
+            <div class="title">{{dynamic.nick_name}}</div>
+            <div class="date">{{dynamic.publish_time}}</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-
-    </div>
-  </el-card>
+      <carousel :list="dynamic.images" :url="dynamic.main_img.url" />
+      <h3 v-if="dynamic.title" class="title">{{dynamic.title}}</h3>
+      <p v-if="dynamic.content" v-html="dynamic.content.replace(/(\r\n|\n|\r)/gm, '<br/>')" class="content"></p>
+      <el-row v-if="dynamic.topic.length > 0">
+        <el-link type="primary" v-for="(label,index) in dynamic.topic" :key="index">{{`#${label.name}`}}</el-link>
+      </el-row>
+      <el-row v-if="dynamic.goods.length > 0">
+        <el-carousel arrow="never" indicator-position="none" height="80px" class="goods">
+          <el-carousel-item v-for="(item,index) in dynamic.goods" :key="index">
+            <div class="item clearfix">
+              <div class="images">
+                <img :src="item.goods_main_img" width="100%" height="auto"/>
+              </div>
+              <div class="body">
+                <div class="title">{{item.goods_title}}</div>
+                <div class="price">￥{{item.goods_price}}</div>
+              </div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </el-row>
+      <el-row class="anticon">
+        <span :class="{'active': dynamic.is_like == true }" class="item">
+          <i class="el-icon-star-off"></i>
+          <span class="text">{{ dynamic.like_num }}</span>
+        </span>
+        <span :class="{'active': dynamic.is_collect == true }" class="item">
+          <i :class="dynamic.is_collect == false ? 'el-icon-star-off':'el-icon-star-on'"></i>
+          <span class="text">{{ dynamic.collect_num }}</span>
+        </span>
+        <span class="item">
+          <i class="el-icon-chat-dot-square"></i>
+          <span class="text">{{ dynamic.comments_num }}</span>
+        </span>
+      </el-row>
+    </el-card>
+    <el-card class="pad-10">
+      <div slot="header" style="margin: -7px 0">全部评论</div>
+    </el-card>
+    <el-card class="pad-10">
+      <el-form ref="ruleForm">
+        <el-input rows="3" type="textarea"></el-input>
+        <el-button type="primary" size="small">发送</el-button>
+      </el-form>
+    </el-card>
+  </div>
 </template>
 
 <script>
@@ -52,99 +95,75 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-header {
-  height: 70px;
-  overflow: hidden;
-  position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  .container {
-    width: 100%;
-    max-width: 1200px;
+.dynamic {
+  .dynamic-header {
+    .el-icon-arrow-left,
+    .el-icon-more {
+      font-size: 25px;
+      margin-top: 9px;
+    }
   }
-  .logo {
-    width: 45px;
-    min-height: 50px;
-    background-color: #999;
+  .user {
+    margin: -8px 0;
+    text-align: right;
+    .el-avatar {
+      margin-left: 10px;
+    }
+    .user-body {
+      overflow: hidden;
+      padding: 2px 0;
+    }
+    .title {
+      font-size: 15px;
+      margin: 0 0 5px;
+    }
+    .date {
+      font-size: 12px;
+      color: #889199
+    }
+  }
+  .title {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  .goods {
+    overflow-y: hidden;
+    .item {
+      background: #F4F6FA;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .images {
+      width: 48px;
+      margin-right: 10px;
+      float: left;
+    }
+    .body {
+      overflow: hidden;
+    }
+    .title {
+      margin-bottom: 5px;
+    }
+    .price {
+      color: #EC1455
+    }
+  }
+  .anticon {
+    margin-top: 15px;
+    .item {
+      font-size: 24px;
+      display: inline-block;
+      margin-right: 20px;
+      cursor: pointer;
+      color: #889199;
+      &.active {
+        color: #EC1455;
+      }
+    }
+    .text {
+      font-weight: lighter;
+      font-size: 18px;
+    }
   }
 }
-
-
-// .header {
-  
-
-//   .hamburger-container {
-//     line-height: 46px;
-//     height: 100%;
-//     float: left;
-//     cursor: pointer;
-//     transition: background .3s;
-//     -webkit-tap-highlight-color:transparent;
-
-//     &:hover {
-//       background: rgba(0, 0, 0, .025)
-//     }
-//   }
-
-//   .breadcrumb-container {
-//     float: left;
-//   }
-
-//   .errLog-container {
-//     display: inline-block;
-//     vertical-align: top;
-//   }
-
-//   .right-menu {
-//     float: right;
-//     height: 100%;
-//     line-height: 50px;
-
-//     &:focus {
-//       outline: none;
-//     }
-
-//     .right-menu-item {
-//       display: inline-block;
-//       padding: 0 8px;
-//       height: 100%;
-//       font-size: 18px;
-//       color: #5a5e66;
-//       vertical-align: text-bottom;
-
-//       &.hover-effect {
-//         cursor: pointer;
-//         transition: background .3s;
-
-//         &:hover {
-//           background: rgba(0, 0, 0, .025)
-//         }
-//       }
-//     }
-
-//     .avatar-container {
-//       margin-right: 30px;
-
-//       .avatar-wrapper {
-//         margin-top: 5px;
-//         position: relative;
-
-//         .user-avatar {
-//           cursor: pointer;
-//           width: 40px;
-//           height: 40px;
-//           border-radius: 10px;
-//         }
-
-//         .el-icon-caret-bottom {
-//           cursor: pointer;
-//           position: absolute;
-//           right: -20px;
-//           top: 25px;
-//           font-size: 12px;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>

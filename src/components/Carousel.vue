@@ -1,9 +1,29 @@
 <template>
   <div class="carousel">
-    <img :src="url" width="100%" height="auto" class="carousel-image"/>
+    <img :src="url" width="100%" height="auto" class="images"/>
     <el-carousel> 
       <el-carousel-item v-for="(thumb, index) in list" :key="index">
-        <img :src="thumb" width="100%" height="auto"/>
+        <img :src="thumb.url" width="100%" height="auto"/>
+        <div v-for="(label,idx) in thumb.image_labels" :key="idx" :style="{
+            top: `${Math.floor(label.y * 100)}%`,
+            left: `${Math.floor(label.x * 100)}%`
+          }" :class="label.x <= 0.5 ? 'lt':'rt'"
+          class="sticker-container">
+            <div :class="label.isLeft == true ? 'is-right': 'is-left'" class="sticker-item">
+              <div class="anchor-container">
+                <div class="anchor"></div>
+                <div class="anchor-center"></div>
+              </div>
+              <div class="line"></div>
+              <div class="content-wrapper">
+                <div class="content-container" :title="label.name">
+                  <div class="description">
+                    {{label.name}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -39,99 +59,156 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-header {
-  height: 70px;
-  overflow: hidden;
+.carousel {
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  .container {
-    width: 100%;
-    max-width: 1200px;
+  overflow: hidden;
+  margin: 0 -15px;
+  .images {
+    visibility: hidden;
   }
-  .logo {
-    width: 45px;
-    min-height: 50px;
-    background-color: #999;
+  .el-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .sticker-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    transition: display 2s;
+    -moz-transition: display 2s; /* Firefox 4 */
+    -webkit-transition: display 2s; /* Safari 和 Chrome */
+    -o-transition: display 2s; /* Opera */
+    &.rt {
+      transform: translatex(-50%);
+    }
+    .sticker-item  {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: flex-start;
+      -moz-justify-content: flex-start;
+      -ms-justify-content: flex-start;
+      -o-justify-content: flex-start;
+      justify-content: flex-start;
+      -moz-box-align: center;
+      -webkit-box-align: center;
+      box-align: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      -ms-align-items: center;
+      -o-align-items: center;
+      align-items: center;
+      line-height: normal;
+      .anchor-container {
+        position: relative;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        .anchor {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          border-radius: 300px;
+          background-color: rgba(0,0,0,.2);
+        }
+        .anchor-center {
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          width: 6px;
+          height: 6px;
+          border-radius: 300px;
+          background-color: #fff;
+          box-shadow: 0 0 2px 0 rgba(0,0,0,.1);
+        }
+      }
+      .line {
+        display: inline-block;
+        width: 14px;
+        height: 1px;
+        margin-left: -8px;
+        margin-right: 0;
+        background-color: #fff;
+      }
+      .content-wrapper {
+        .content-container {
+          display:-webkit-box;  /* iOS 6-, Safari 3.1-6 */
+          display:-webkit-flex; /* Chrome */
+          display:-moz-box;     /* Firefox 19 */
+          display:-ms-flexbox;   
+          display:flex;  /*flex容器*/
+          -moz-box-align: center;
+          -webkit-box-align: center;
+          box-align: center;
+          -webkit-align-items: center;
+          -moz-align-items: center;
+          -ms-align-items: center;
+          -o-align-items: center;
+          align-items: center;
+          position: relative;
+          padding: 5px;
+          border: 1px solid #fff;
+          border-radius: 15px;
+          overflow: hidden;
+          background-color: hsla(0,0%,40%,.3);
+          box-shadow: 0 0 2px 0 rgba(0,0,0,.1);
+          max-width: 180px;
+          cursor: pointer;
+          .description {
+            font-size: 10px;
+            color: #fff;
+            margin-left: 5px;
+            margin-right: 5px;
+            max-width: 180px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          .svg-container {
+            font-size: 14px;
+          }
+          &:hover {
+            background-color: hsla(0,0%,40%,.6);
+          }
+        }
+      }
+
+      &.is-left {
+        -webkit-flex-direction: row-reverse;
+        -moz-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+        -o-flex-direction: row-reverse; 
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        -webkit-justify-content: flex-end;
+        -moz-justify-content: flex-end;
+        -ms-justify-content: flex-end;
+        -o-justify-content: flex-end;
+        justify-content: flex-end;
+        .line {
+          margin-right: -8px;
+          margin-left: 0;
+        }
+      }
+      &.is-right {
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        -ms-flex-direction: row;
+        -o-flex-direction: row; 
+        flex-direction: row;
+        .line {
+          margin-right: -8px;
+          margin-left: 0;
+        }
+      }
+    }
   }
 }
-
-
-// .header {
-  
-
-//   .hamburger-container {
-//     line-height: 46px;
-//     height: 100%;
-//     float: left;
-//     cursor: pointer;
-//     transition: background .3s;
-//     -webkit-tap-highlight-color:transparent;
-
-//     &:hover {
-//       background: rgba(0, 0, 0, .025)
-//     }
-//   }
-
-//   .breadcrumb-container {
-//     float: left;
-//   }
-
-//   .errLog-container {
-//     display: inline-block;
-//     vertical-align: top;
-//   }
-
-//   .right-menu {
-//     float: right;
-//     height: 100%;
-//     line-height: 50px;
-
-//     &:focus {
-//       outline: none;
-//     }
-
-//     .right-menu-item {
-//       display: inline-block;
-//       padding: 0 8px;
-//       height: 100%;
-//       font-size: 18px;
-//       color: #5a5e66;
-//       vertical-align: text-bottom;
-
-//       &.hover-effect {
-//         cursor: pointer;
-//         transition: background .3s;
-
-//         &:hover {
-//           background: rgba(0, 0, 0, .025)
-//         }
-//       }
-//     }
-
-//     .avatar-container {
-//       margin-right: 30px;
-
-//       .avatar-wrapper {
-//         margin-top: 5px;
-//         position: relative;
-
-//         .user-avatar {
-//           cursor: pointer;
-//           width: 40px;
-//           height: 40px;
-//           border-radius: 10px;
-//         }
-
-//         .el-icon-caret-bottom {
-//           cursor: pointer;
-//           position: absolute;
-//           right: -20px;
-//           top: 25px;
-//           font-size: 12px;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>

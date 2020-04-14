@@ -1,81 +1,82 @@
 <template>
   <div>
     <Header />
-    <div class="page">
+    <div class="page pt-10">
       <div class="container">
-        <Sidebar />
+        <Sidebar>
+          <Login />
+          <Personal type="1"/>
+        </Sidebar>
         <div class="main-container">
           <el-tabs v-model="active" :stretch="false" @tab-click="handleTab">
-            <el-tab-pane v-for="(tab, index) in tabs" :key="index" :label="tab.name"></el-tab-pane>
+            <el-tab-pane v-for="(tab, index) in tabs" :key="index" :name="`${tab.id}`" :label="tab.name"></el-tab-pane>
           </el-tabs>
-          <div class="splitter-container clearfix">
+          <div class="splitter-container clearfix pt-50">
             <div v-if="spread" class="splitter-pane Left fl">
               <el-scrollbar class="scrollbar" :horizontal="false">
-                <Dynamic :dynamic="dynamic" />
-                <Goods :goods="goods" />
+                <Dynamic v-if="role_type == 1" :dynamic="dynamic" />
+                <Goods v-if="role_type == 2" :goods="goods" />
               </el-scrollbar>
             </div>
             <div class="splitter-pane">
               <el-scrollbar class="scrollbar" :horizontal="false">
-                <div style="padding-bottom: 40px">
-                  <div :class="{'watfill-4': spread == false }" class="watfill">
-                    <el-card v-for="(item, index) in imgList" :key="index" :body-style="{ padding: '0px' }" class="watfill-box">
-                      <div v-if="Object.keys(item.video).length === 0" @click="handleDynamic(item)">
-                        <img :src="item.main_img.url" width="100%" height="auto" class="image">
+                <div :class="{'watfill-4': spread == false }" class="watfill">
+                  <el-card v-for="(item, index) in imgList" :key="index" :body-style="{ padding: '0px' }" class="watfill-box">
+                    <div v-if="Object.keys(item.video).length === 0" @click="handleDynamic(item)">
+                      <img :src="item.main_img.url" width="100%" height="auto" class="image">
+                    </div>
+                    <div v-else @click="handleDynamic(item)">
+                      <img :src="item.video.video_frontcover" width="100%" height="auto" class="image">
+                      <i class="el-icon-video-play"></i>
+                    </div>
+                    <div class="body">
+                      <div v-if="item.title" class="title">
+                        <el-link @click="handleDynamic(item)">{{ item.title }}</el-link>
                       </div>
-                      <div v-else @click="handleDynamic(item)">
-                        <img :src="item.video.video_frontcover" width="100%" height="auto" class="image">
-                        <i class="el-icon-video-play"></i>
-                      </div>
-                      <div class="body">
-                        <div v-if="item.title" class="title">
-                          <el-link @click="handleDynamic(item)">{{ item.title }}</el-link>
-                        </div>
-                        <div class="user clearfix">
-                          <el-popover placement="top-start" width="200" offset="10" trigger="hover">
-                            <el-avatar slot="reference" class="fl" :size="32" :src="item.user_head_portrait" />
-                            <div class="popover">
-                              <el-avatar class="avatar" :size="60" :src="item.user_head_portrait" />
-                              <div class="name">
-                                <el-link :to="`profile?id=${item.user_id}`">{{item.user_nick_name}}</el-link>
-                              </div>
-                              <el-row>
-                                <el-col :span="8">
-                                  <div class="text">店铺商品</div>
-                                  {{ item.agent_goods_num }}
-                                </el-col>
-                                <el-col :span="8">
-                                  <div class="text">粉丝</div>
-                                  {{ item.fans_num }}
-                                </el-col>
-                                <el-col :span="8">
-                                  <div class="text">动态</div>
-                                  {{ item.dynamic_num }}
-                                </el-col>
-                              </el-row>
-                              <el-row>
-                                <el-button :type="item.is_follow ? '':'danger'" size="medium" :icon="item.is_follow ? 'el-icon-check':'el-icon-plus'">{{item.is_follow ? '已关注':'关注'}}</el-button>
-                                <el-button size="medium">私信</el-button>
-                              </el-row>
+                      <div class="user clearfix">
+                        <el-popover placement="top-start" width="200" offset="10" trigger="hover">
+                          <el-avatar slot="reference" class="fl" :size="32" :src="item.user_head_portrait" />
+                          <div class="popover">
+                            <el-avatar class="avatar" :size="60" :src="item.user_head_portrait" />
+                            <div class="name">
+                              <el-link :href="`/profile?id=${item.user_id}`">{{item.user_nick_name}}</el-link>
                             </div>
-                          </el-popover>
-                          <small class="fr">{{item.create_time }}</small>
-                          <div class="user-body">
-                            <el-link :to="`profile?id=${item.user_id}`" class="name">{{item.user_nick_name}}</el-link>
+                            <el-row>
+                              <el-col :span="8">
+                                <div class="text">店铺商品</div>
+                                {{ item.agent_goods_num }}
+                              </el-col>
+                              <el-col :span="8">
+                                <div class="text">粉丝</div>
+                                {{ item.fans_num }}
+                              </el-col>
+                              <el-col :span="8">
+                                <div class="text">动态</div>
+                                {{ item.dynamic_num }}
+                              </el-col>
+                            </el-row>
+                            <el-row>
+                              <el-button :type="item.is_follow ? '':'danger'" size="medium" :icon="item.is_follow ? 'el-icon-check':'el-icon-plus'">{{item.is_follow ? '已关注':'关注'}}</el-button>
+                              <el-button size="medium">私信</el-button>
+                            </el-row>
                           </div>
+                        </el-popover>
+                        <small class="fr">{{item.create_time }}</small>
+                        <div class="user-body">
+                          <el-link :href="`/profile?id=${item.user_id}`" class="name">{{item.user_nick_name}}</el-link>
                         </div>
                       </div>
-                    </el-card>
-                  </div>
-                  <div v-if="loading" class="loading">
-                    <i class="el-icon-loading"></i>
-                    加载中...
-                  </div>
-                  <div v-if="!finished && !loading" class="more">
-                    <el-link @click="handleMore">
-                      查看更多
-                    </el-link>
-                  </div>
+                    </div>
+                  </el-card>
+                </div>
+                <div v-if="loading" class="loading">
+                  <i class="el-icon-loading"></i>
+                  加载中...
+                </div>
+                <div v-if="!finished && !loading" class="more">
+                  <el-link @click="handleMore">
+                    查看更多
+                  </el-link>
                 </div>
               </el-scrollbar>
             </div>
@@ -92,13 +93,15 @@ import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import Goods from '@/components/Goods'
 import Dynamic from '@/components/Dynamic'
+import Login from '@/components/Login.vue'
+import Personal from '@/components/Personal.vue'
 import { getInterestLabel, getFind, getDynamicDetail, getGoodsDetail } from '@/api'
 
 export default {
   data () {
     return {
       tabs: [],
-      active: 0,
+      active: '0',
       imgList: [],
       page: 1,
       loading: false,
@@ -114,7 +117,9 @@ export default {
     Header,
     Sidebar,
     Goods,
-    Dynamic
+    Dynamic,
+    Login,
+    Personal
   },
   created() {
     this.init()
@@ -196,7 +201,7 @@ export default {
       this.loading = false
       this.prevent = true
       this.finished = false
-      this.active = this.tabs[tab.index].id
+      this.active = String(this.tabs[tab.index].id)
       this.init()
     },
     handleMore() {

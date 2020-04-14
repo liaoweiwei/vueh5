@@ -1,95 +1,314 @@
 <template>
-  <div class="app-wrapper">
-    <section class="container clearfix">
-      <sidebar />
-      <div class="app-mian inside clearfix">
-        <div v-if="drawer" class="block left pull-left">
-          <el-scrollbar :horizontal="false">
-            <Drawernote v-if="type == 0" :details="details" @close="drawer = false" />
-            <Drawershop v-if="type == 2" :goods="goods" @close="drawer = false" />
-          </el-scrollbar>
-        </div>
-        <div class="block right">
-          <el-tabs v-model="activeName" class="tabs tabs-center" @tab-click="ontabs">
-            <el-tab-pane :label="$t('common.dynamic')" name="dynamic" />
-            <el-tab-pane :label="$t('common.shop')" name="shop" />
-            <el-tab-pane :label="$t('common.collection')" name="collection" />
-          </el-tabs>
-          <el-scrollbar :horizontal="false">
-            <div v-if="activeName == 'dynamic'" :class="{'watfill-2': drawer == true }" class="watfill">
-              <wat-item class="watfill-box" v-for="(item, indx) in imgList" :key="indx" :data="item" @open="onDynamicHandle" />
+  <div>
+    <Header />
+    <div class="page pt-10">
+      <div class="container">
+        <Sidebar>
+          <Personal type="1"/>
+        </Sidebar>
+        <div class="main-container">
+          <div class="splitter-container clearfix">
+            <div v-if="spread" class="splitter-pane Left fl">
+              <el-scrollbar class="scrollbar" :horizontal="false">
+                <Dynamic v-if="role_type == 1" :dynamic="dynamic" />
+                <Goods v-if="role_type == 2" :goods="goods" />
+              </el-scrollbar>
             </div>
-            <div v-if="activeName == 'shop'" :class="{'watfill-2': drawer == true }" class="watfill">
-              <shop-item class="watfill-box" v-for="(item, indx) in imgList" :key="indx" :data="item" @open="onShopHandle"/>
+            <div class="splitter-pane">
+              <el-scrollbar class="scrollbar" :horizontal="false">
+                <el-tabs v-model="active" :stretch="false" @tab-click="handleTab">
+                  <el-tab-pane v-for="(tab, index) in tabs" :key="index" :name="tab.type" :label="tab.name"></el-tab-pane>
+                </el-tabs>
+                <div v-if="active == 'dynamic'" :class="{'watfill-4': spread == false }" class="watfill">
+                  <el-card v-for="(item, index) in imgList" :key="index" :body-style="{ padding: '0px' }" class="watfill-box" @click="handleDynamic(item)">
+                    <div v-if="Object.keys(item.video).length === 0">
+                      <img :src="item.main_img.url" width="100%" height="auto" class="image">
+                    </div>
+                    <div v-else>
+                      <img :src="item.video.video_frontcover" width="100%" height="auto" class="image">
+                      <i class="el-icon-video-play"></i>
+                    </div>
+                    <div class="body">
+                      <div v-if="item.title" class="title">
+                        <el-link>{{ item.title }}</el-link>
+                      </div>
+                      <div class="user clearfix">
+                        <el-popover placement="top-start" width="200" offset="10" trigger="hover">
+                          <el-avatar slot="reference" class="fl" :size="32" :src="item.user_head_portrait" />
+                          <div class="popover">
+                            <el-avatar class="avatar" :size="60" :src="item.user_head_portrait" />
+                            <div class="name">
+                              <el-link :href="`profile?id=${item.user_id}`">{{item.user_nick_name}}</el-link>
+                            </div>
+                            <el-row>
+                              <el-col :span="8">
+                                <div class="text">店铺商品</div>
+                                {{ item.agent_goods_num }}
+                              </el-col>
+                              <el-col :span="8">
+                                <div class="text">粉丝</div>
+                                {{ item.fans_num }}
+                              </el-col>
+                              <el-col :span="8">
+                                <div class="text">动态</div>
+                                {{ item.dynamic_num }}
+                              </el-col>
+                            </el-row>
+                            <el-row>
+                              <el-button :type="item.is_follow ? '':'danger'" size="medium" :icon="item.is_follow ? 'el-icon-check':'el-icon-plus'">{{item.is_follow ? '已关注':'关注'}}</el-button>
+                              <el-button size="medium">私信</el-button>
+                            </el-row>
+                          </div>
+                        </el-popover>
+                        <small class="fr">{{item.create_time }}</small>
+                        <div class="user-body">
+                          <el-link :href="`profile?id=${item.user_id}`" class="name">{{item.user_nick_name}}</el-link>
+                        </div>
+                      </div>
+                    </div>
+                  </el-card>
+                </div>
+                <div v-if="active == 'shop'" :class="{'watfill-4': spread == false }" class="watfill">
+                  <el-card v-for="(item, index) in imgList" :key="index" :body-style="{ padding: '0px' }" @click="handleDynamic(item)">
+                    <img :src="item.goods_main_img" class="image">
+                    <div class="body">
+                      <div v-if="item.title" class="title">
+                        <el-link>{{ item.goods_title }}</el-link>
+                      </div>
+                      <div class="clearfix">
+                        <el-button type="text">{{item.goods_price}}</el-button>
+                      </div>
+                    </div>
+                  </el-card>
+                </div>
+                <div v-if="active == 'collection'" :class="{'watfill-4': spread == false }" class="watfill">
+                  <el-card v-for="(item, index) in imgList" :key="index"  :body-style="{ padding: '0px' }" class="watfill-box" @click="handleDynamic(item)">
+                    <div v-if="item.type == 1">
+                      <div v-if="Object.keys(item.video).length === 0">
+                        <img :src="item.main_img.url" width="100%" height="auto" class="image">
+                      </div>
+                      <div v-else>
+                        <img :src="item.video.video_frontcover" width="100%" height="auto" class="image">
+                        <i class="el-icon-video-play"></i>
+                      </div>
+                      <div class="body">
+                        <div v-if="item.title" class="title">
+                          <el-link>{{ item.title }}</el-link>
+                        </div>
+                        <div class="user clearfix">
+                          <el-popover placement="top-start" width="200" offset="10" trigger="hover">
+                            <el-avatar slot="reference" class="fl" :size="32" :src="item.user_head_portrait" />
+                            <div class="popover">
+                              <el-avatar class="avatar" :size="60" :src="item.user_head_portrait" />
+                              <div class="name">
+                                <el-link :to="`profile?id=${item.user_id}`">{{item.user_nick_name}}</el-link>
+                              </div>
+                              <el-row>
+                                <el-col :span="8">
+                                  <div class="text">店铺商品</div>
+                                  {{ item.agent_goods_num }}
+                                </el-col>
+                                <el-col :span="8">
+                                  <div class="text">粉丝</div>
+                                  {{ item.fans_num }}
+                                </el-col>
+                                <el-col :span="8">
+                                  <div class="text">动态</div>
+                                  {{ item.dynamic_num }}
+                                </el-col>
+                              </el-row>
+                              <el-row>
+                                <el-button :type="item.is_follow ? '':'danger'" size="medium" :icon="item.is_follow ? 'el-icon-check':'el-icon-plus'">{{item.is_follow ? '已关注':'关注'}}</el-button>
+                                <el-button size="medium">私信</el-button>
+                              </el-row>
+                            </div>
+                          </el-popover>
+                          <small class="fr">{{item.create_time }}</small>
+                          <div class="user-body">
+                            <el-link :to="`profile?id=${item.user_id}`" class="name">{{item.user_nick_name}}</el-link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if="item.type == 2">
+                      <img :src="item.goods_main_img" class="image">
+                      <div class="body">
+                        <div v-if="item.title" class="title">
+                          <el-link>{{ item.goods_title }}</el-link>
+                        </div>
+                        <div class="clearfix">
+                          <el-button type="text">{{item.goods_price}}</el-button>
+                        </div>
+                      </div>
+                    </div>
+                  </el-card>
+                </div>
+                <div v-if="loading" class="loading">
+                  <i class="el-icon-loading"></i>
+                  加载中...
+                </div>
+                <div v-if="!finished && !loading" class="more">
+                  <el-link @click="handleMore">
+                    查看更多
+                  </el-link>
+                </div>
+              </el-scrollbar>
             </div>
-            <div v-if="activeName == 'collection'" :class="{'watfill-2': drawer == true }" class="watfill">
-              <div class="watfill-box" v-for="(item, indx) in imgList" :key="indx">
-                <wat-item v-if="item.type == 1" :data="item.note" @open="onDynamicHandle" />
-                <shop-item v-if="item.type == 2" :data="item.goods" @open="onShopHandle"/>
-              </div>
-            </div>
-            <div v-if="loading" class="text-center">{{$t("common.loading")}}</div>
-            <div v-if="!finished && !loading" class="text-center" style="padding: 5px 0">
-              <el-link @click="onmore">查看更多</el-link>
-            </div>
-          </el-scrollbar>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
-
 <script>
+// 组件引用
+import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import ShopItem from '@/components/shopItem'
-import WatItem from '@/components/watItem'
-import Drawernote from '@/components/drawer/note'
-import Drawershop from '@/components/drawer/shop'
+import Goods from '@/components/Goods'
+import Dynamic from '@/components/Dynamic'
+import Login from '@/components/Login.vue'
+import Personal from '@/components/Personal.vue'
 import { getDynamicDetail, getGoodsDetail, getCollectList, getUserDynamic, getUserGoods } from '@/api'
 
-
 export default {
-  name: 'MySelf',
-  components: {
-    Sidebar,
-    ShopItem,
-    WatItem,
-    Drawernote,
-    Drawershop
-  },
-  data() {
+  data () {
     return {
-      details: null,
-      goods: null,
-      drawer: false,
-      type: 0,
-      loading: false,
-      prevent: false,
-      finished: false,
-      activeName: 'shop',
+      tabs: [
+        {id: 1, name: '动态', type: 'dynamic'},
+        {id: 2, name: '商品', type: 'shop'},
+        {id: 3, name: '收藏', type: 'collection'}
+      ],
+      active: 'shop',
       imgList: [],
-      page: 1
+      page: 1,
+      loading: false,
+      prevent: true,
+      finished: false,
+      spread: false,
+      role_type: 1,
+      dynamic: null,
+      goods: null,
     }
+  },
+  components: {
+    Header,
+    Sidebar,
+    Goods,
+    Dynamic,
+    Login,
+    Personal
   },
   created() {
     this.init()
   },
   methods: {
-    parentHandle(data){
-      this.type = data.type;
-      if(data.type == 0) {
+    init(){
+      switch(this.active) {
+        case 'collection':
+          if(!this.prevent) {
+            return
+          }
+          this.prevent = false
+          this.loading = true
+          setTimeout(() => {
+            getCollectList({
+              user_id: this.$route.query.id,
+              page: this.page,
+              prepage: 12,
+              time: Date.parse(new Date()) / 1000
+            }).then(res => {
+              if (Number(res.code) === 0) {
+                const data = res.data
+                for(let i = 0; i < data.length; i++) {
+                  this.imgList.push(data[i])
+                }
+                this.page++
+                this.loading = false
+                this.prevent = true
+                // // 数据全部加载完成
+                if (data.length < 16) {
+                  this.finished = true
+                }
+              }
+            })
+          }, 500)
+          break;
+        case 'dynamic':
+          if(!this.prevent) {
+            return
+          }
+          this.prevent = false
+          this.loading = true
+          setTimeout(() => {
+            getUserDynamic({
+              request_id: this.$route.query.id,
+              page: this.page,
+              prepage: 12,
+              type: 1,
+              time: Date.parse(new Date()) / 1000
+            }).then(res => {
+              if (Number(res.code) === 0) {
+                const data = res.data
+                for(let i = 0; i < data.length; i++) {
+                  this.imgList.push(data[i])
+                }
+                this.page++
+                this.loading = false
+                this.prevent = true
+                // // 数据全部加载完成
+                if (data.length < 16) {
+                  this.finished = true
+                }
+              }
+            })
+          }, 500)
+          break;
+        default:
+          if(!this.prevent) {
+            return
+          }
+          this.prevent = false
+          this.loading = true
+          setTimeout(() => {
+            getUserGoods({
+              request_id: this.$route.query.id,
+              type: 1,
+              page: this.page,
+              prepage: 12,
+              time: Date.parse(new Date()) / 1000
+            }).then(res => {
+              if (Number(res.code) === 0) {
+                const data = res.data
+                for(let i = 0; i < data.length; i++) {
+                  this.imgList.push(data[i])
+                }
+                this.page++
+                this.loading = false
+                this.prevent = true
+                // // 数据全部加载完成
+                if (data.length < 16) {
+                  this.finished = true
+                }
+              }
+            })
+          }, 500)
+      }
+    },
+    handleDynamic(data){
+      this.role_type = data.role_type;
+      if(this.role_type == 1) {
         getDynamicDetail({
           user_id: this.$store.getters.user_id,
           dynamic_id: data.id,
           time: Date.parse(new Date()) / 1000
         }).then(res=> {
           if(Number(res.code) === 0) {
-            this.details = res.data;
-            this.drawer = true
+            this.dynamic = res.data;
+            this.spread = true
           }
         })
-      }else if(data.type == 2){
+      }else if(this.role_type == 2){
         getGoodsDetail({
           goods_id: data.id,
           user_id: this.$store.getters.user_id,
@@ -99,158 +318,23 @@ export default {
           if(Number(res.code) == 0) {
             if(!Array.isArray(res.data)) {
               this.goods = res.data;
-              this.drawer = true
+              this.spread = true
             }
           }
         })
       }
     },
-    init() {
-      if(this.activeName == 'collection'){
-        if(this.prevent) {
-          return
-        }
-        if(this.finished) {
-          return
-        }
-        this.prevent = true
-        this.loading = true
-        setTimeout(() => {
-          getCollectList({
-            user_id: this.$route.query.id,
-            page: this.page,
-            prepage: 12,
-            time: Date.parse(new Date()) / 1000
-          }).then(res => {
-            if (Number(res.code) === 0) {
-              const data = res.data
-              for(let i = 0; i < data.length; i++) {
-                this.imgList.push(data[i])
-              }
-              this.loading = false
-              this.prevent = false
-              // // 数据全部加载完成
-              if (data.length < 16) {
-                this.finished = true
-              }
-            }else {
-              this.loading = false
-              this.prevent = false
-              this.finished = true
-            }
-          })
-        }, 500)
-      }else if(this.activeName == 'dynamic') {
-        if(this.prevent) {
-          return
-        }
-        if(this.finished) {
-          return
-        }
-        this.prevent = true
-        this.loading = true
-
-        setTimeout(() => {
-          getUserDynamic({
-            request_id: this.$route.query.id,
-            page: this.page,
-            prepage: 12,
-            type: 1,
-            time: Date.parse(new Date()) / 1000
-          }).then(res => {
-            if (Number(res.code) === 0) {
-              const data = res.data
-              for(let i = 0; i < data.length; i++) {
-                this.imgList.push(data[i])
-              }
-              this.loading = false
-              this.prevent = false
-              // // 数据全部加载完成
-              if (data.length < 16) {
-                this.finished = true
-              }
-            }else {
-              this.loading = false
-              this.prevent = false
-              this.finished = true
-            }
-          })
-        }, 500)
-      }else {
-        if(this.prevent) {
-          return
-        }
-        if(this.finished) {
-          return
-        }
-        this.prevent = true
-        this.loading = true
-        setTimeout(() => {
-          getUserGoods({
-            request_id: this.$route.query.id,
-            type: 1,
-            page: this.page,
-            prepage: 12,
-            time: Date.parse(new Date()) / 1000
-          }).then(res => {
-            if (Number(res.code) === 0) {
-              const data = res.data
-              for(let i = 0; i < data.length; i++) {
-                this.imgList.push(data[i])
-              }
-              this.loading = false
-              this.prevent = false
-              // // 数据全部加载完成
-              if (data.length < 16) {
-                this.finished = true
-              }
-            }else {
-              this.loading = false
-              this.prevent = false
-              this.finished = true
-            }
-          })
-        }, 500)
-      }
-    },
-    ontabs() {
+    handleTab(tab) {
       this.imgList = []
       this.page = 1
       this.loading = false
-      this.prevent = false
+      this.prevent = true
       this.finished = false
+      this.active = String(this.tabs[tab.index].type)
       this.init()
     },
-    onmore() {
-    },
-    onDynamicHandle(data) {
-      this.type = 0
-      getDynamicDetail({
-        user_id: this.$store.getters.user_id,
-        dynamic_id: data.id,
-        time: Date.parse(new Date()) / 1000
-      }).then(res=> {
-        if(Number(res.code) === 0) {
-          this.details = res.data;
-          this.drawer = true
-        }
-      })
-    },
-    onShopHandle(data){
-      this.type = 2
-      getGoodsDetail({
-        goods_id: data.id,
-        user_id: this.$store.getters.user_id,
-        agent_goods_user: data.agent_goods_user,
-        time: Date.parse(new Date()) / 1000
-      }).then(res => {
-        if(Number(res.code) == 0) {
-          if(!Array.isArray(res.data)) {
-            this.goods = res.data;
-            this.drawer = true
-          }
-        }
-      })
+    handleMore() {
+      this.init()
     }
   }
 }

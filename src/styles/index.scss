@@ -8,23 +8,12 @@
 @import './btn.scss';
 
 /******reset********/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
- caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html, iframe,
+h1, h2, h3, h4, h5, h6, blockquote, pre,
+a {
   margin: 0;
   padding: 0;
   border: 0;
-  font: inherit;
 }
 
 body {
@@ -32,6 +21,7 @@ body {
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
   background: #f7f7f7;
   font-size: 14px;
+  margin: 0;
 }
 
 label {
@@ -171,6 +161,19 @@ div:focus {
   margin-top: 5px;
 }
 
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pt-50 {
+  padding-top: 50px;
+}
+
+.pad-10 {
+  margin-top: 10px
+}
+
+
 
 // aside {
 //   background: #eef1f6;
@@ -194,10 +197,6 @@ div:focus {
 //     }
 //   }
 // }
-
-.pad-15 {
-  margin-top: 30px;
-}
 
 
 
