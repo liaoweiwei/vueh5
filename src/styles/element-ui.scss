@@ -1,12 +1,26 @@
+@import './variables.scss';
+
 .el-tabs {
   position: absolute;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 10;
+  &.tabs-1 {
+    .el-tabs__nav {
+      width: 165px;
+      margin: 0 auto;
+      float: none;
+    }
+  }
+  &.tabs-form {
+    .el-tabs__header {
+      border-color: transparent;
+    }
+  }
 }
 .el-tabs__header {
-  border: 1px solid #e6ebf5;
+  border: 1px solid $border-color;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -15,11 +29,11 @@
   background: #fff;
 }
 .el-tabs__active-bar {
-  background: #f23658;
+  background: $active-color;
 }
 .el-tabs__item:hover,
 .el-tabs__item.is-active {
-  color: #f23658;
+  color: $active-color;
 }
 
 .el-card.is-always-shadow {
@@ -32,4 +46,18 @@
 
 .el-carousel .el-carousel__container {
   height: 100% !important;
+}
+
+.el-button--primary {
+  background: $button-primary;
+}
+.el-button--primary:hover, 
+.el-button--primary:focus{
+  background: $button-primary-hover;
+}
+
+.input-with-select {
+  .el-select .el-input__inner {
+    width: 110px;
+  }
 }

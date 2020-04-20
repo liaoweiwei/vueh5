@@ -1,10 +1,12 @@
+@import './variables.scss';
+
 .popover {
   text-align: center;
   .name {
     font-size: 20px;
   }
   .text {
-    color: #889199;
+    color: $light;
   }
   .el-row {
     margin-top: 15px;

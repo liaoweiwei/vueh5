@@ -13,13 +13,13 @@
             </li>
           </ul> -->
         </el-popover>
-        <div class="user clearfix">
+        <router-link :to="`profile?id=${dynamic.user_id}`" class="user clearfix">
           <el-avatar class="fr" :size="42" :src="dynamic.head_portrait" />
           <div class="user-body">
             <div class="title">{{dynamic.nick_name}}</div>
             <div class="date">{{dynamic.publish_time}}</div>
           </div>
-        </div>
+        </router-link>
       </div>
       <carousel :list="dynamic.images" :url="dynamic.main_img.url" />
       <h3 v-if="dynamic.title" class="title">{{dynamic.title}}</h3>
@@ -95,6 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .dynamic {
   .dynamic-header {
     .el-icon-arrow-left,
@@ -106,6 +108,7 @@ export default {
   .user {
     margin: -8px 0;
     text-align: right;
+    display: block;
     .el-avatar {
       margin-left: 10px;
     }

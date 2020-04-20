@@ -149,6 +149,14 @@ div:focus {
   text-align: center
 }
 
+.text-light {
+  color: $light;
+}
+
+.text-danger {
+  color: $danger-color;
+}
+
 .loading {
   text-align: center;
   font-size: 13px;
@@ -174,56 +182,6 @@ div:focus {
 }
 
 
-
-// aside {
-//   background: #eef1f6;
-//   padding: 8px 24px;
-//   margin-bottom: 20px;
-//   border-radius: 2px;
-//   display: block;
-//   line-height: 32px;
-//   font-size: 16px;
-//   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-//   color: #2c3e50;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-
-//   a {
-//     color: #337ab7;
-//     cursor: pointer;
-
-//     &:hover {
-//       color: rgb(32, 160, 255);
-//     }
-//   }
-// }
-
-
-
-.sub-navbar {
-  height: 50px;
-  line-height: 50px;
-  position: relative;
-  width: 100%;
-  text-align: right;
-  padding-right: 20px;
-  transition: 600ms ease position;
-  background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
-
-  .subtitle {
-    font-size: 20px;
-    color: #fff;
-  }
-
-  &.draft {
-    background: #d0d0d0;
-  }
-
-  &.deleted {
-    background: #d0d0d0;
-  }
-}
-
 .link-type,
 .link-type:focus {
   color: #337ab7;
@@ -231,6 +189,33 @@ div:focus {
 
   &:hover {
     color: rgb(32, 160, 255);
+  }
+}
+
+.msg-code {
+  width: 230px !important;
+  text-align: center;
+  padding: 0;
+  .el-message-box__btns {
+    border-top: 1px solid $border-color;
+  }
+  .el-button {
+    display: block;
+    width: 100%;
+    border: none;
+    color: $danger-color;
+    &:hover,
+    &:focus {
+      background: transparent;
+    }
+  }
+}
+
+.image_None {
+  text-align: center;
+  padding-top: 10%;
+  img {
+    margin-bottom: 15px;
   }
 }
 

@@ -1,11 +1,11 @@
 
 const app = {
   state: {
-    loginDialogVisible: false
+    login_visible: false
   },
   mutations: {
-    loginDialogVisible: (state, data) => {
-      state.loginDialogVisible = data
+    login_visible: (state) => {
+      state.login_visible = !state.login_visible
     }
   }
 }

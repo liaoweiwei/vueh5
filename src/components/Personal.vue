@@ -2,7 +2,7 @@
   <el-card v-if="user != null" class="personal">
     <el-avatar class="avatar" :size="70" :src="user.head_portrait" />
     <div class="name">
-      <el-link :href="url">{{user.name}}</el-link>
+      <el-link @click="go(user)">{{user.name}}</el-link>
       <i class="el-icon-male"></i>
     </div>
     <el-row>
@@ -65,7 +65,6 @@ export default {
         time: Date.parse(new Date()) / 1000
       }).then(res => {
         if (Number(res.code) === 0) {
-          console.log(res.data)
           this.user = res.data
         }
       })
@@ -79,12 +78,21 @@ export default {
           this.label = res.data
         }
       })
+    },
+    go(user) {
+      if(this.type == 1) {
+        this.$router.push(`/mySelf`)
+      }else {
+        this.$router.push(`/profile?id=${user.user_id}`)
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 .personal {
   text-align: center;
   .el-row {
@@ -108,13 +116,14 @@ export default {
   .tags {
     text-align: left;
     span {
-      border-radius: .25rem;
-      height: 1.25rem;
-      line-height: 1.25rem;
-      border: .0625rem solid #c5d0d9;
+      height: 24px;
+      line-height: 24px;
+      border-radius: 3px;
+      border: 1px solid #c5d0d9;
       color: #889199;
-      padding: 0 .25rem;
-      margin-right: .3125rem;
+      padding: 0 5px;
+      margin-bottom: 5px;
+      margin-right: 5px;
       display: inline-block;
       cursor: pointer;
     }

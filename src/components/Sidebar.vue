@@ -4,17 +4,17 @@
       <slot />
       <el-card :body-style="{ padding: '8px 15px' }" class="pad-10">
         <div slot="header" style="margin: -7px 0">
-          <span>热门话题</span>
+          <span class="title">热门话题</span>
         </div>
         <div>
           <ul style="padding: 0; margin: 0">
             <li v-for="(item, index) in hotTopic" :key="index">
-              <el-link type="primary">{{ item.name }}</el-link>
+              <a href="javascript:;" class="link-type" @click="handleQrcode">{{ item.name }}</a>
             </li>
           </ul>
         </div>
       </el-card>
-      <el-card :body-style="{ padding: '8px 15px' }" class="pad-10 copy">
+      <el-card :body-style="{ padding: '8px 20px' }" class="pad-10 copy">
         <p>Copyright ©2019 BAIPU, All Rights Reserved</p>
         <p>
           <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010502005025">
@@ -30,7 +30,10 @@
 
 <script>
 import { getHotTopic } from '@/api'
+import { mixins } from './mixin'
+
 export default {
+  mixins: [mixins],
   data() {
     return {
       hotTopic: []
@@ -54,6 +57,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 aside {
   width: 250px;
   height: 100%;
@@ -65,90 +70,10 @@ aside {
   }
   .copy {
     font-size: 14px;
-    color: #606266;
+    color: $light;
     p {
       margin-bottom: 8px;
     }
   }
 }
-
-
-
-// .header {
-  
-
-//   .hamburger-container {
-//     line-height: 46px;
-//     height: 100%;
-//     float: left;
-//     cursor: pointer;
-//     transition: background .3s;
-//     -webkit-tap-highlight-color:transparent;
-
-//     &:hover {
-//       background: rgba(0, 0, 0, .025)
-//     }
-//   }
-
-//   .breadcrumb-container {
-//     float: left;
-//   }
-
-//   .errLog-container {
-//     display: inline-block;
-//     vertical-align: top;
-//   }
-
-//   .right-menu {
-//     float: right;
-//     height: 100%;
-//     line-height: 50px;
-
-//     &:focus {
-//       outline: none;
-//     }
-
-//     .right-menu-item {
-//       display: inline-block;
-//       padding: 0 8px;
-//       height: 100%;
-//       font-size: 18px;
-//       color: #5a5e66;
-//       vertical-align: text-bottom;
-
-//       &.hover-effect {
-//         cursor: pointer;
-//         transition: background .3s;
-
-//         &:hover {
-//           background: rgba(0, 0, 0, .025)
-//         }
-//       }
-//     }
-
-//     .avatar-container {
-//       margin-right: 30px;
-
-//       .avatar-wrapper {
-//         margin-top: 5px;
-//         position: relative;
-
-//         .user-avatar {
-//           cursor: pointer;
-//           width: 40px;
-//           height: 40px;
-//           border-radius: 10px;
-//         }
-
-//         .el-icon-caret-bottom {
-//           cursor: pointer;
-//           position: absolute;
-//           right: -20px;
-//           top: 25px;
-//           font-size: 12px;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>

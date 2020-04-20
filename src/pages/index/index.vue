@@ -4,8 +4,8 @@
     <div class="page pt-10">
       <div class="container">
         <Sidebar>
-          <Login />
-          <Personal type="1"/>
+          <Login v-if="$store.getters.isAuthenticate != 1"/>
+          <Personal v-else :type="1"/>
         </Sidebar>
         <div class="main-container">
           <el-tabs v-model="active" :stretch="false" @tab-click="handleTab">
@@ -22,51 +22,7 @@
               <el-scrollbar class="scrollbar" :horizontal="false">
                 <div :class="{'watfill-4': spread == false }" class="watfill">
                   <el-card v-for="(item, index) in imgList" :key="index" :body-style="{ padding: '0px' }" class="watfill-box">
-                    <div v-if="Object.keys(item.video).length === 0" @click="handleDynamic(item)">
-                      <img :src="item.main_img.url" width="100%" height="auto" class="image">
-                    </div>
-                    <div v-else @click="handleDynamic(item)">
-                      <img :src="item.video.video_frontcover" width="100%" height="auto" class="image">
-                      <i class="el-icon-video-play"></i>
-                    </div>
-                    <div class="body">
-                      <div v-if="item.title" class="title">
-                        <el-link @click="handleDynamic(item)">{{ item.title }}</el-link>
-                      </div>
-                      <div class="user clearfix">
-                        <el-popover placement="top-start" width="200" offset="10" trigger="hover">
-                          <el-avatar slot="reference" class="fl" :size="32" :src="item.user_head_portrait" />
-                          <div class="popover">
-                            <el-avatar class="avatar" :size="60" :src="item.user_head_portrait" />
-                            <div class="name">
-                              <el-link :href="`/profile?id=${item.user_id}`">{{item.user_nick_name}}</el-link>
-                            </div>
-                            <el-row>
-                              <el-col :span="8">
-                                <div class="text">店铺商品</div>
-                                {{ item.agent_goods_num }}
-                              </el-col>
-                              <el-col :span="8">
-                                <div class="text">粉丝</div>
-                                {{ item.fans_num }}
-                              </el-col>
-                              <el-col :span="8">
-                                <div class="text">动态</div>
-                                {{ item.dynamic_num }}
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-button :type="item.is_follow ? '':'danger'" size="medium" :icon="item.is_follow ? 'el-icon-check':'el-icon-plus'">{{item.is_follow ? '已关注':'关注'}}</el-button>
-                              <el-button size="medium">私信</el-button>
-                            </el-row>
-                          </div>
-                        </el-popover>
-                        <small class="fr">{{item.create_time }}</small>
-                        <div class="user-body">
-                          <el-link :href="`/profile?id=${item.user_id}`" class="name">{{item.user_nick_name}}</el-link>
-                        </div>
-                      </div>
-                    </div>
+                    <Watnote :note="item" @open="handleDynamic" />
                   </el-card>
                 </div>
                 <div v-if="loading" class="loading">
@@ -84,6 +40,7 @@
         </div>
       </div>
     </div>
+    <Poplogin :visible="$store.getters.login_visible" />
   </div>
 </template>
 
@@ -95,6 +52,8 @@ import Goods from '@/components/Goods'
 import Dynamic from '@/components/Dynamic'
 import Login from '@/components/Login.vue'
 import Personal from '@/components/Personal.vue'
+import Watnote from '@/components/Watnote.vue'
+import Poplogin from '@/components/Poplogin.vue'
 import { getInterestLabel, getFind, getDynamicDetail, getGoodsDetail } from '@/api'
 
 export default {
@@ -119,7 +78,9 @@ export default {
     Goods,
     Dynamic,
     Login,
-    Personal
+    Personal,
+    Watnote,
+    Poplogin
   },
   created() {
     this.init()

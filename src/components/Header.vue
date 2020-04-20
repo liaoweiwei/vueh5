@@ -39,12 +39,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.scss';
+
 header {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
-  border-bottom: 1px solid #e6ebf5;
+  background: $header-bg;
+  border-bottom: 1px solid $border-color;
   padding: 8px 0;
   .container {
     width: 100%;

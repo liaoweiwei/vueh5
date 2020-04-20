@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .watfill {
   -webkit-column-count: 2;
   -moz-column-count: 2;
@@ -58,7 +60,7 @@
       }
       small {
         font-size: 12px;
-        color: #889199;
+        color: $light;
         display: block;
         margin: 8px 0;
       }
