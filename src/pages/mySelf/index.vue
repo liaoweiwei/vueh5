@@ -10,8 +10,8 @@
           <div class="splitter-container clearfix">
             <div v-if="spread" class="splitter-pane Left fl">
               <el-scrollbar class="scrollbar" :horizontal="false">
-                <Dynamic v-if="role_type == 1" :dynamic="dynamic" />
-                <Goods v-if="role_type == 2" :goods="goods" />
+                <Dynamic v-if="role_type == 1" :dynamic="dynamic" @close="spread = false"/>
+                <Goods v-if="role_type == 2" :goods="goods" @close="spread = false"/>
               </el-scrollbar>
             </div>
             <div class="splitter-pane">

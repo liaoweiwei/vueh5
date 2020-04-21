@@ -13,17 +13,29 @@ export default new Router({
     path: '/',
     name: 'index',
     component: index,
+    meta: {
+      requireAuth: false
+    }
   },{
     path: '/dropdown',
     name: 'dropdown',
-    component: dropdown
+    component: dropdown,
+    meta: {
+      requireAuth: false
+    }
   },{
     path: '/mySelf',
     name: 'mySelf',
-    component: mySelf
+    component: mySelf,
+    meta: {
+      requireAuth: true
+    }
   },{
     path: '/profile',
     name: 'profile',
-    component: profile
+    component: profile,
+    meta: {
+      requireAuth: false
+    }
   }]
 })

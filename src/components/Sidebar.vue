@@ -7,9 +7,9 @@
           <span class="title">热门话题</span>
         </div>
         <div>
-          <ul style="padding: 0; margin: 0">
+          <ul class="hot-list">
             <li v-for="(item, index) in hotTopic" :key="index">
-              <a href="javascript:;" class="link-type" @click="handleQrcode">{{ item.name }}</a>
+              <a href="javascript:;" class="link-type" @click="handleQrcode" :title="item.name">{{ item.name }}</a>
             </li>
           </ul>
         </div>
@@ -21,7 +21,7 @@
             <img src="/static/images/gongan.png" width="15px" height="auto">
           </a>
           沪公网安备 31010502005025号
-          <el-link target="_blank" href="http://www.beian.miit.gov.cn">沪ICP备19007182号-1</el-link>
+          <a target="_blank" href="http://www.beian.miit.gov.cn">沪ICP备19007182号-1</a>
         </p>
       </el-card>
     </el-scrollbar>
@@ -67,6 +67,15 @@ aside {
   .scrollbar {
     width: 100%;
     height: 100%;
+  }
+  .hot-list {
+    padding: 0;
+    margin: 0;
+    li {
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+    }
   }
   .copy {
     font-size: 14px;

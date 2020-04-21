@@ -2,7 +2,7 @@
   <div v-if="dynamic != null" class="dynamic">
     <el-card :body-style="{ padding: '0px 15px 15px' }">
       <div slot="header" class="dynamic-header clearfix">
-        <i class="el-icon-arrow-left fl"></i>
+        <i class="el-icon-arrow-left fl" @click="handleClose"></i>
         <el-popover placement="bottom-start" width="100" trigger="hover">
           <i slot="reference" class="el-icon-more fl"></i>
           <!-- <ul>
@@ -80,15 +80,15 @@ export default {
     dynamic: {
       type: Object,
       default: null  
+    },
+    close: {
+      type: Function,
+      default: null
     }
   },
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    handleClose() {
+      this.$emit('close')
     }
   }
 }
@@ -103,6 +103,7 @@ export default {
     .el-icon-more {
       font-size: 25px;
       margin-top: 9px;
+      cursor: pointer;
     }
   }
   .user {

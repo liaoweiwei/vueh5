@@ -30,7 +30,7 @@ const user = {
       commit('SET_ISAUTHENTICATE', 1)
     },
     // 退出登录
-    removeLogin({ commit }) {
+    logout({ commit }) {
       return new Promise((resolve) => {
         commit('SET_USERID', 0)
         removeUserId()

@@ -8,7 +8,7 @@
       <i class="el-icon-video-play"></i>
     </div>
     <div class="body">
-      <el-link v-if="note.title" class="title">{{ note.title }}</el-link>
+      <el-link v-if="note.title" class="title" :title="note.title">{{ note.title }}</el-link>
       <div class="user clearfix">
         <el-popover placement="top-start" width="200" offset="10" trigger="hover">
           <el-avatar slot="reference" class="fl" :size="32" :src="note.user_head_portrait" />

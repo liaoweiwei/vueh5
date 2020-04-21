@@ -10,6 +10,7 @@ import './styles/element-variables.scss'
 import 'es6-promise/auto'
 
 import './styles/index.scss' // global css
+import './font/iconfont.css'
 
 import './permission' // permission control
 

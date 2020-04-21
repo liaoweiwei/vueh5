@@ -1,19 +1,101 @@
 <template>
-  <div class="search">
-  </div>
+  <el-form class="search fr">
+    <el-select
+      v-model="value"
+      filterable
+      remote
+      size="small"
+      reserve-keyword
+      placeholder="请输入关键词"
+      :remote-method="remoteMethod"
+      :loading="loading"
+      loading-text="加载中..."
+      @change="onChange"
+      >
+      <template slot="prefix">
+        <i class="el-icon-search"></i>
+      </template>
+      <el-option
+        v-for="(item, index) in list"
+        :key="index" 
+        :value="item">
+        <i v-if="item.type == 0" class="el-icon-tickets"></i>
+        <i v-if="item.type == 2" class="el-icon-shopping-bag-2"></i>
+        <i v-if="item.type == 3" class="el-icon-user"></i>
+        {{ item.label | labelHtml }}
+      </el-option>
+    </el-select>
+  </el-form>
 </template>
 
 <script>
+import { getSearch } from '@/api'
 
 export default {
-  methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+  filters: {
+    labelHtml(date) {
+      if (date.length > 24) {
+        return date.substring(0, 24) + '...'
+      } else {
+        return date
+      }
     }
+  },
+  data() {
+    return {
+      list: [],
+      value: '',
+      loading: false
+    }
+  },
+  methods: {
+     remoteMethod(query) {
+      this.list =[]
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          getSearch({
+            keywords: query,
+            type: 1,
+            user_id: this.$store.getters.user_id,
+            time: Date.parse(new Date()) / 1000
+          }).then(res => {
+            this.loading = false;
+             if (Number(res.code) === 0) {
+              const {data} = res;
+              for(let i in data.dynamic) {
+                const obj = {
+                  value: `dynamic${data.dynamic[i].id}`,
+                  id: data.dynamic[i].id,
+                  label: data.dynamic[i].title,
+                  type: 0,
+                }
+                this.list.push(obj)
+              }
+              for(let i in data.goods) {
+                const obj = {
+                  value: `goods${data.goods[i].id}`,
+                  id: data.goods[i].id,
+                  label: data.goods[i].goods_title,
+                  type: 2,
+                }
+                this.list.push(obj)
+              }
+
+              for(let i in data.user) {
+                const obj = {
+                  value: `user${data.user[i].user_id}`,
+                  id: data.user[i].user_id,
+                  label: data.user[i].nick_name,
+                  type: 3,
+                }
+                this.list.push(obj)
+              }
+            }
+          })
+        }, 200);
+      }
+    },
   }
 }
 </script>
@@ -21,99 +103,13 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/variables.scss';
 
-header {
-  height: 70px;
-  overflow: hidden;
-  position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  .container {
-    width: 100%;
-    max-width: 1200px;
-  }
-  .logo {
-    width: 45px;
-    min-height: 50px;
-    background-color: #999;
+.search {
+  padding:2px 0;
+  .el-icon-search {
+    position: relative;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%); 
   }
 }
-
-
-// .header {
-  
-
-//   .hamburger-container {
-//     line-height: 46px;
-//     height: 100%;
-//     float: left;
-//     cursor: pointer;
-//     transition: background .3s;
-//     -webkit-tap-highlight-color:transparent;
-
-//     &:hover {
-//       background: rgba(0, 0, 0, .025)
-//     }
-//   }
-
-//   .breadcrumb-container {
-//     float: left;
-//   }
-
-//   .errLog-container {
-//     display: inline-block;
-//     vertical-align: top;
-//   }
-
-//   .right-menu {
-//     float: right;
-//     height: 100%;
-//     line-height: 50px;
-
-//     &:focus {
-//       outline: none;
-//     }
-
-//     .right-menu-item {
-//       display: inline-block;
-//       padding: 0 8px;
-//       height: 100%;
-//       font-size: 18px;
-//       color: #5a5e66;
-//       vertical-align: text-bottom;
-
-//       &.hover-effect {
-//         cursor: pointer;
-//         transition: background .3s;
-
-//         &:hover {
-//           background: rgba(0, 0, 0, .025)
-//         }
-//       }
-//     }
-
-//     .avatar-container {
-//       margin-right: 30px;
-
-//       .avatar-wrapper {
-//         margin-top: 5px;
-//         position: relative;
-
-//         .user-avatar {
-//           cursor: pointer;
-//           width: 40px;
-//           height: 40px;
-//           border-radius: 10px;
-//         }
-
-//         .el-icon-caret-bottom {
-//           cursor: pointer;
-//           position: absolute;
-//           right: -20px;
-//           top: 25px;
-//           font-size: 12px;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>

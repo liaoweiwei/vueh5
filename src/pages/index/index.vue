@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Header />
+    <Header>
+      <Search />
+    </Header>
     <div class="page pt-10">
       <div class="container">
         <Sidebar>
@@ -14,8 +16,8 @@
           <div class="splitter-container clearfix pt-50">
             <div v-if="spread" class="splitter-pane Left fl">
               <el-scrollbar class="scrollbar" :horizontal="false">
-                <Dynamic v-if="role_type == 1" :dynamic="dynamic" />
-                <Goods v-if="role_type == 2" :goods="goods" />
+                <Dynamic v-if="role_type == 1" :dynamic="dynamic" @close="spread = false"/>
+                <Goods v-if="role_type == 2" :goods="goods" @close="spread = false"/>
               </el-scrollbar>
             </div>
             <div class="splitter-pane">
@@ -54,6 +56,7 @@ import Login from '@/components/Login.vue'
 import Personal from '@/components/Personal.vue'
 import Watnote from '@/components/Watnote.vue'
 import Poplogin from '@/components/Poplogin.vue'
+import Search from '@/components/Search.vue'
 import { getInterestLabel, getFind, getDynamicDetail, getGoodsDetail } from '@/api'
 
 export default {
@@ -80,7 +83,8 @@ export default {
     Login,
     Personal,
     Watnote,
-    Poplogin
+    Poplogin,
+    Search
   },
   created() {
     this.init()

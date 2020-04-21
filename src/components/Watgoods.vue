@@ -4,7 +4,7 @@
       <img :src="goods.goods_main_img" width="100%" height="auto" >
     </div>
     <div class="body">
-      <el-link class="title">{{ goods.goods_title }}</el-link>
+      <el-link class="title" :title="goods.goods_title">{{ goods.goods_title }}</el-link>
       <div class="text-danger">{{goods.goods_price}}</div>
     </div>
   </a>

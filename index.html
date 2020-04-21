@@ -1,16 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta content="no" name="apple-mobile-web-app-capable">
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="no" name="apple-mobile-web-app-capable"/>
     <title>百铺|每个人的店铺</title>
-    <meta name="Keywords" content="社交,电商,海淘,商品百科">
-    <meta name="Description" content="百铺是一个开放的商品百科平台和用户创作平台。在这里我们用图片和视频记录美好的事物，通过社交的力量传播优秀的商品。现在就来认识来自全世界的达人，查看全球商品攻略。">
-    <link rel="icon" href="/favicon.ico">
+    <meta name="Keywords" content="社交,电商,海淘,商品百科"/>
+    <meta name="Description" content="百铺是一个开放的商品百科平台和用户创作平台。在这里我们用图片和视频记录美好的事物，通过社交的力量传播优秀的商品。现在就来认识来自全世界的达人，查看全球商品攻略。"/>
+    <link rel="icon" href="./favicon.ico" />
+    <script>
+      if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
+        alert("您的浏览器版本过低，请使用IE9及以上版本");
+      }
+      // var userAgent = navigator.userAgent;
+      // console.log(userAgent)
+      // var isOpera = userAgent.indexOf("Opera") > -1;
+      // var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera;
+      // if (isIE) {
+      //   var IE5 = IE55 = IE6 = IE7 = IE8 = false;
+      //   var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+      //   reIE.test(userAgent);
+      //   var fIEVersion = parseFloat(RegExp["$1"]);
+      //   if (fIEVersion<9) {
+      //     var d = document.createElement("div");
+      //     d.className = "browsehappy";
+      //     d.innerHTML = '<div>您的浏览器版本过低，请使用IE9及以上版本</div>';
+      //     var f = function() {
+      //       var s = document.getElementsByTagName("body")[0];
+      //       if ("undefined" == typeof(s)) {
+      //         setTimeout(f, 10)
+      //       } else {
+      //         s.insertBefore(d, s.firstChild)
+      //       }
+      //     };
+      //     f()
+      //   }
+      // }
+    </script>
   </head>
   <body>
     <div id="app"></div>

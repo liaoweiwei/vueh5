@@ -2,7 +2,7 @@
   <div v-if="goods != null" class="goods">
     <el-card :body-style="{ padding: '0px 15px 15px' }">
       <div slot="header" class="goods-header clearfix">
-        <i class="el-icon-arrow-left fl"></i>
+        <i class="el-icon-arrow-left fl" @click="handleClose"></i>
         <div class="title">商品详情</div>
       </div>
       <div class="carousel">
@@ -39,6 +39,10 @@ export default {
     goods: {
       type: Object,
       default: null  
+    },
+    close: {
+      type: Function,
+      default: null
     }
   },
   methods: {
@@ -48,6 +52,9 @@ export default {
       }else {
         window.open(goods.tbk_coupon_url);
       }
+    },
+    handleClose() {
+      this.$emit('close')
     }
   }
 }
@@ -61,6 +68,7 @@ export default {
     margin: -15px 0;
     .el-icon-arrow-left {
       font-size: 25px;
+      cursor: pointer;
     }
     .title {
       font-size: 18px;

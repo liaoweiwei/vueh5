@@ -117,7 +117,6 @@ export default {
         if (!valid) {
           return 
         }
-         debugger
         this.loading = true
         getLogin({
           login_name: this.form.mobile,
@@ -148,7 +147,6 @@ export default {
         if(!valid) {
           return 
         }
-        debugger
         this.loading = true
         getSendCheckcode({
           mobile: this.formCode.mobile,

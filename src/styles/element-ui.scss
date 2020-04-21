@@ -58,6 +58,17 @@
 
 .input-with-select {
   .el-select .el-input__inner {
-    width: 110px;
+    min-width: 110px;
   }
+}
+
+.el-carousel__indicator {
+ .el-carousel__button {
+   width: 8px;
+   height: 8px;
+   border-radius: 100%;
+   overflow: hidden;
+   background-color: $danger-color;
+   opacity: 0.5;
+ }
 }
